@@ -1,20 +1,18 @@
-def greet_user(username):
-	print("Hello, "+ username.title() + "!")
-	
-"""Devolve um nome completo formatado de modo elegante."""
-def get_formatted_name(first_name, last_name):
-	
-	full_name = first_name + ' ' + last_name
-	return full_name.title()
+import json
 
-while True:
-	print("\nPlease tell me your name:")
-	print("(enter 'q' at any time to quit)")
-	f_name = input("First name: ")
-	if f_name == 'q':
-		break
-	l_name = input("Last name:")
-	if l_name == 'q':
-		break
-	formatted_name = get_formatted_name(f_name, l_name)
-	print("\nHello, " + formatted_name + "!")
+# Carrega o nome do usuário se foi armazenado anteriormente
+# Caso contrário, pede que o usuário forneça o nome e armazena essa
+# informação
+
+filename = 'username.json'
+
+try:
+	with open(filename) as f_obj:
+		username = json.load(f_obj)
+except FileNotFoundError:
+	username = input("What is your name?")
+	with open(filename, 'w') as f_obj:
+		json.dump(username, f_obj)
+	print("We'll remember you when you come back, " + username + "!")
+else:
+	print("Welcome back, " + username + "!")
